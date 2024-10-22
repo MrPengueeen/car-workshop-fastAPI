@@ -23,4 +23,34 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
-    
+
+
+# Booking Schemas
+
+class BookingBase(BaseModel):
+    title: str
+
+class BookingCreate(BookingBase):
+    car_make : str
+    car_model : str
+    car_year : str
+    car_registration : str
+    customer_name : str
+    customer_email : str
+    customer_phone : str
+    start : datetime
+    end : datetime
+    mechanic_id : int
+
+class Booking(BookingBase):
+    id: int
+    car_make : str
+    car_model : str
+    car_year : str
+    car_registration : str
+    customer_name : str
+    customer_email : str
+    customer_phone : str
+    start : datetime
+    end : datetime
+    mechanic : schemas.User
