@@ -63,6 +63,15 @@ def get_bookings(db: Session, skip: int=0, limit: int=1000):
     
     return db_bookings
 
+def get_bookings_by_date_range(db: Session, start: datetime.datetime, end: datetime.datetime, skip: int=0, limit: int=1000):
+
+    db_bookings = db.query(models.Booking).filter(func.date(models.Booking.start)>=func.date(start), func.date(models.Booking.end)<=func.date(end), ).offset(skip).limit(limit).all()
+    for booking in db_bookings:
+        db_mechanic = db.query(models.User).filter(models.User.id==booking.mechanic_id).first()
+        booking.mechanic = db_mechanic
+    
+    return db_bookings
+
 def get_bookings_by_mechanic(db: Session, mechanic_id: int, skip: int=0, limit: int=1000):
     db_bookings = db.query(models.Booking).filter(models.Booking.mechanic_id==mechanic_id).offset(skip).limit(limit).all()
     for booking in db_bookings:
