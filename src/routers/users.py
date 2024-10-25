@@ -8,6 +8,10 @@ router = APIRouter(
     tags=["users"],
 )
 
+@router.get("", response_model=list[schemas.User])
+async def get_users(db: Session=Depends(dependencies.get_db)):
+    return crud.get_mechanics(db=db)
+
 @router.post("/register", response_model=schemas.User)
 async def register_user(user: schemas.UserCreate, db: Session=Depends(dependencies.get_db)):
     return crud.register_user(db=db, user=user)

@@ -53,4 +53,5 @@ class Booking(BookingBase):
     customer_phone : str
     start : datetime
     end : datetime
+    status: str
     mechanic : schemas.User

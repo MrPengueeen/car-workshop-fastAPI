@@ -28,4 +28,5 @@ class Booking(Base):
     customer_phone = Column(String)
     start = Column(DateTime, default=datetime.datetime.now())
     end = Column(DateTime)
+    status = Column(String, default="active")
     mechanic_id = Column(Integer, ForeignKey("Users.id"))

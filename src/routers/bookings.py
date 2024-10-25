@@ -11,11 +11,9 @@ router = APIRouter(
 )
 
 
-@router.get("", response_model=list[schemas.Booking])
-async def get_bookings(mechanic_id: int | None = None, skip: int=0, limit: int=100, db: Session=Depends(dependencies.get_db)):
-    if not mechanic_id:
-        return crud.get_bookings(db=db, skip=skip, limit=limit)
-    return crud.get_bookings_by_mechanic(db=db, mechanic_id=mechanic_id, skip=skip, limit=limit)
+@router.post("/mechanic", response_model=list[schemas.Booking])
+async def get_bookings_by_mechanic(mechanic: schemas.User, db: Session=Depends(dependencies.get_db)):
+    return crud.get_bookings_by_mechanic(db=db, mechanic_id=mechanic.id)
 
 @router.post("/range", response_model=list[schemas.Booking])
 async def get_bookings_by_date_range(start: Annotated[datetime.datetime, Body(...)], end: Annotated[datetime.datetime, Body(...)], db: Session=Depends(dependencies.get_db)):

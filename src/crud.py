@@ -65,7 +65,7 @@ def get_bookings(db: Session, skip: int=0, limit: int=1000):
 
 def get_bookings_by_date_range(db: Session, start: datetime.datetime, end: datetime.datetime, skip: int=0, limit: int=1000):
 
-    db_bookings = db.query(models.Booking).filter(func.date(models.Booking.start)>=func.date(start), func.date(models.Booking.end)<=func.date(end), ).offset(skip).limit(limit).all()
+    db_bookings = db.query(models.Booking).filter(func.date(models.Booking.start)>=func.date(start), func.date(models.Booking.start)<=func.date(end), ).offset(skip).limit(limit).all()
     for booking in db_bookings:
         db_mechanic = db.query(models.User).filter(models.User.id==booking.mechanic_id).first()
         booking.mechanic = db_mechanic
@@ -86,7 +86,7 @@ def create_booking(db: Session, booking: schemas.BookingCreate):
         car_model=booking.car_model, car_registration=booking.car_registration, 
         customer_email=booking.customer_email, customer_name=booking.customer_name, 
         customer_phone=booking.customer_phone, start=booking.start, end=booking.end, 
-        mechanic_id=booking.mechanic_id)
+        mechanic_id=booking.mechanic_id, status = "active")
     db.add(db_booking)
     db.commit()
     db.refresh(db_booking)
